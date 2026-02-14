@@ -28,8 +28,10 @@ int main(int argc, char *argv[])
 				putchar(' ');
 			}
 
+			unsigned char mask = 0x80; // start at bit 8 (7)
 			for (int i = 0; i < 8; i++) {
-				buffer[i] = ((c >> (7 - i)) & 1) ? '1' : '0';
+				buffer[i] = (c & mask) ? '1' : '0';
+				mask >>= 1;
 			}
 			buffer[8] = '\0';
 
