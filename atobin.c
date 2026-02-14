@@ -1,0 +1,42 @@
+/*
+ * atobin: Convert ascii text from standard input to readable binary.
+ * Written by William S. Moore
+ */
+#include <stdio.h>
+
+int main(int argc, char *argv[])
+{
+	if (argc > 1) {
+		printf("atobin: Convert ascii text from standard input to readable binary.\n");
+		printf("Note: The newline character '\\n' is presereved in the output.\n");
+		printf("You are reading this because arguments were passed to atobin.\n");
+		return 1;
+	}
+
+	int c;
+	int first_in_line = 1; // flag to track the start of a line
+	char buffer[10]; // 8 bits + possible space + null terminator
+
+	while((c = getchar()) != EOF) {
+		if (c == '\n') {
+			putchar('\n');
+			first_in_line = 1;
+		}
+		else if (c == '\r') continue;
+		else {
+			if (!first_in_line) {
+				putchar(' ');
+			}
+
+			for (int i = 0; i < 8; i++) {
+				buffer[i] = ((c >> (7 - i)) & 1) ? '1' : '0';
+			}
+			buffer[8] = '\0';
+
+			fputs(buffer, stdout);
+
+			first_in_line = 0;
+		}
+	}
+	return 0;
+}
