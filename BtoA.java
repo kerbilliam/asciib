@@ -1,3 +1,4 @@
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -7,6 +8,7 @@ import java.io.IOException;
  * properly printed.
  * * Ported from C by Gemini.
  */
+
 public class BtoA {
     public static void main(String[] args) {
         // C logic: if (argc > 1)
@@ -22,30 +24,37 @@ public class BtoA {
         try {
             int c;
             int characterByte = 0;
+            // Use a buffer to store bytes until we hit a newline
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
             // System.in.read() returns -1 at the end of the stream, mimicking EOF
             while ((c = System.in.read()) != -1) {
                 
                 if (c == ' ') {
-                    if (characterByte > 31) {
-                        System.out.print((char) characterByte);
+                    if (characterByte > 0) {
+			    buffer.write(characterByte);
                     }
                     characterByte = 0;
                     continue;
                 }
 
                 if (c == '\n' || c == '\r') {
-                    if (characterByte > 31) {
-                        System.out.print((char) characterByte);
+                    if (characterByte > 0) {
+			    buffer.write(characterByte);
                     }
-                    characterByte = 0;
+
+                    // Convert the gathered bytes into a UTF-8 String
+                    System.out.print(buffer.toString("UTF-8"));
                     System.out.print((char) c);
+                    
+                    buffer.reset(); // Clear for next line
+                    characterByte = 0;
                     continue;
                 }
 
-                // Convert '0'/'1' characters to numeric 0/1 and shift into the byte
-                int bit = c - '0';
-                characterByte = (characterByte << 1) + bit;
+                if (c == '0' || c == '1') {
+                    characterByte = (characterByte << 1) + (c - '0');
+                }
             }
         } catch (IOException e) {
             System.err.println("Error reading input: " + e.getMessage());
