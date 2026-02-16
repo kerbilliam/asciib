@@ -10,8 +10,5 @@ all: atob.c btoa.c
 local-install: atob btoa
 	mv atob btoa $(INSTALL-PATH)
 
-java: AtoB.java BtoA.java
-	javac AtoB.java BtoA.java
-
 clean:
-	rm -f atob btoa AtoB.class BtoA.class
+	rm -f atob btoa

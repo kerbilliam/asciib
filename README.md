@@ -16,21 +16,11 @@ make
 ```
 This creates the `atob` and `btoa` binaries.
 
-### Java Version
-If for some unlikely reason you want to use the Java version of the program,
-run the command below to make the two `.class` files.
-```sh
-make java
-```
-> The java version was made by AI when prompted to translate atob and btoa
-to Java for fun. There seems to be a bug where non-ascii text like Japanese
-does not get decoded properly with BtoA.
-
 ## Installing
 You need to be on a UNIX-like system with the `$HOME` environment variable set.
 It is to be assumed that `$HOME/.local/bin` is part of the `$PATH` environment
 variable to consider it to being "installed". Otherwise, simply build the
-binaries (or java .class file) and manually install them.
+binaries and manually install them.
 
 ```sh
 make all local-install
