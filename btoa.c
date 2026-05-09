@@ -22,12 +22,14 @@ int main(int argc, char *argv[])
 	int character_byte = 0;
 	while((c = getchar()) != EOF) {
 		if (c == ' ') {
-			if (character_byte > 31) putchar(character_byte);
+			if (character_byte > 31 || character_byte == '\t')
+				putchar(character_byte);
 			character_byte = 0;
 			continue;
 		}
 		if (c == '\n' || c == '\r') {
-			if (character_byte > 31) putchar(character_byte);
+			if (character_byte > 31 || character_byte == '\t')
+				putchar(character_byte);
 			character_byte = 0;
 			putchar(c);
 			continue;
